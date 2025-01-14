@@ -3,7 +3,7 @@
     --seasalt: #f8f9faff;
     --hellgrau: #dee2e6ff;
     --hellrosa: #c799a6ff;
-    --dunkelgrau: #212529ff;
+    --dunkelgrau: #212529ff; /* Textfarbe */
 }
 
 body {
@@ -81,16 +81,16 @@ h2 {
     margin-top: 5px;
 }
 
-#startTimer{
-    background-color: #FFF8E8;
+#startTimer {
+    background-color: red; /* Hintergrundfarbe rot */
     font-size: 20px;
     padding: 10px;
-    color: #f9bb19ff;
+    color: white; /* Textfarbe weiß */
 }
 
-#startTimer:hover{
-    background-color:  #FFD261;
-    color: black;
+#startTimer:hover {
+    background-color: darkred; /* Hintergrundfarbe beim Hover dunkleres Rot */
+    color: white;
     font-weight: bolder;
 }
 
