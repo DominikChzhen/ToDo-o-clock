@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendo - deine To-do-Liste</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Calendo.css">
+</head>
+<body>
+    <h1>CalenDo</h1>
+    <div class="container_big">
+        <div class="headerContainer">
+        <h2>Meine To-Do-Liste</h2>
+        <div class="startTimer">
+            Timer starten <button onclick="startTimer" id="startTimer"> &#9654;</button>
+        </div>
+    </div>
+        <div class="input-section">
+            <input type="text" id="taskName" placeholder="Name der To-Do" />
+            <input type="datetime-local" id="deadline" />
+            <input type="duration" id="taskDuration" placeholder="Dauer in Minuten" />
+            <label><input type="checkbox" id="taskPriorityW"> Wichtig?</label>
+            <label><input type="checkbox" id="taskPriorityD"> Dringend?</label>
+            <button onclick="openAddTaskPopup()" id="addTask">To-Do hinzufügen</button>
+        </div>
+    <div class="container_small">
+        sortieren nach:
+        <div class="sort-buttons">
+            <button onclick="sortTasks('dueDate')">Fälligkeit </button>
+            <button onclick="sortTasks('priority')">Priorität</button>
+            <button onclick="sortTasks('added')">Zuletzt hinzugefügt</button>
+            <button onclick="sortTasks('duration_niedrig-hoch')">Zeitaufwand (niedrig -> hoch)</button>
+            <button onclick="sortTasks('duration_hoch-niedrig')">Zeitaufwand (hoch -> niedrig) </button>
+        </div>
+    
+        <ul id="taskList"></ul>
+
+</div> 
+
+<!-- Pop-Up-Formular -->
+<div id="addTaskPopup" class="popup">
+    <div class="popup-content">
+        <span class="close" onclick="closeAddTaskPopup()">&times;</span>
+        <h2>Neue Aufgabe hinzufügen</h2>
+        <input type="text" id="popupTaskName" placeholder="Name der To-Do" />
+        <input type="datetime-local" id="popupDeadline" />
+        <input type="number" id="popupTaskDuration" placeholder="Dauer in Minuten" />
+        <label><input type="checkbox" id="popupTaskPriorityW"> Wichtig?</label>
+        <label><input type="checkbox" id="popupTaskPriorityD"> Dringend?</label>
+        <button onclick="addTaskFromPopup()" id="popupAddTask">Hinzufügen</button>
+    </div>
+</div>
+
+    <script src="Calendo.js"></script> <!-- js Verlinkung -->
+</body>
+</html>
