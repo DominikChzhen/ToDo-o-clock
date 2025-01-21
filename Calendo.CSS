@@ -4,7 +4,6 @@
     --hellgrau: #dee2e6ff;
     --hellrosa: #c799a6ff;
     --dunkelgrau: #212529ff; /* Textfarbe */
-    /*Hello*/
 }
 
 body {
@@ -82,16 +81,16 @@ h2 {
     margin-top: 5px;
 }
 
-#startTimer {
-    background-color: red; /* Hintergrundfarbe rot */
+#startTimer{
+    background-color: #FFF8E8;
     font-size: 20px;
     padding: 10px;
-    color: white; /* Textfarbe weiß */
+    color: #f9bb19ff;
 }
 
-#startTimer:hover {
-    background-color: darkred; /* Hintergrundfarbe beim Hover dunkleres Rot */
-    color: white;
+#startTimer:hover{
+    background-color:  #FFD261;
+    color: black;
     font-weight: bolder;
 }
 
