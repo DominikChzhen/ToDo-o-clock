@@ -1,0 +1,281 @@
+:root {
+    --Gelb: #f9bb19ff;
+    --seasalt: #f8f9faff;
+    --hellgrau: #dee2e6ff;
+    --hellrosa: #c799a6ff;
+    --dunkelgrau: #212529ff; /* Textfarbe */
+    /*Hello*/
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 100;
+    font-style: normal;
+    margin: 0;
+    background-color: white;
+    display: grid;
+    place-items: center;
+    height: 100vh;
+}
+
+.H1 {
+    color: black;
+    text-shadow: 1px 1px 2px #212529ff;
+    text-align: left;
+    background: white;
+    width: 100%;
+    height: 40px;
+    padding: 30;
+    margin: 0;
+}
+
+.container_big {
+    width: 900px;
+    background-color: #f8f9faff;
+    border-radius: 15px;
+    text-align: center;
+    padding: 20px;
+    margin-top: 5px;
+}
+.headerContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Align vertically centered */
+    margin-bottom: 20px; 
+}
+h2 {
+    text-align: left;
+    font-weight: 500;
+    font-size: 30px;
+}
+.startTimer {
+    display: flex;
+    align-items:center;
+    justify-content: flex-end;
+    margin: 10px;
+    width: 180px;
+    padding: 15px;
+    background-color: white;
+    border-radius: 15px;
+    gap: 5px;
+}
+
+.sort-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    gap: 5px; /* Abstand zwischen Symbol und Text */
+}
+
+.input-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    gap: 15px; /* Abstand zwischen den Elementen */
+    width: 850px;
+    /*border-radius: 15px; */
+   /* border: 1px solid #dee2e6ff;*/
+    text-align: center;
+    padding: 5px;
+    margin-top: 5px;
+}
+
+#startTimer {
+    background-color: red; /* Hintergrundfarbe rot */
+    font-size: 20px;
+    padding: 10px;
+    color: white; /* Textfarbe weiß */
+}
+
+#startTimer:hover {
+    background-color: darkred; /* Hintergrundfarbe beim Hover dunkleres Rot */
+    color: white;
+    font-weight: bolder;
+}
+
+button {
+    padding: 10px;
+    background-color: #FFF8E8;
+    color: black;
+    border: none;
+    cursor: pointer;
+    border-radius: 15px;
+    margin: 5px;
+    flex: 1;
+}
+
+#addTask { 
+    padding: 10px;
+    background-color: #f9bb19ff;
+    color: #FFF8E8;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 5px;
+    flex: 1;
+}
+
+#addTask:hover {
+    background-color:  #FFD261;
+    font-weight: bold;
+    color: #212529ff;
+}
+
+button:hover {
+    background-color: #f9bb19ff;
+    font-weight: bolder;
+    color: white;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    background-color: white;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+}
+
+.input-section input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.container_small{
+    background-color: white;
+    padding: 15px;
+    border-radius: 15px;
+}
+
+button.löschenButton {
+    background-color:  #FFF8E8;
+    color: #f9bb19ff;
+    border: none;
+    cursor: pointer;
+    font-size: 13px; 
+    margin-left: 500px; /* Für Rechts-Positionierung */
+    padding: 2px 3px; 
+    border-radius: 5px; 
+}
+
+button.löschenButton:hover {
+    background-color: #f9bb19ff;
+    color: white
+}
+
+/* Übergeordneter Container pro Todo */
+#taskList li {
+    background-color: white;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    border: 1px solid #dee2e6ff;
+}
+
+.todo-name, .editButton, .löschenButton {
+    text-align: center;
+}
+
+.todo-name {
+    flex: 1;
+    font-size: larger;
+    text-align: center;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.todo-details {
+    flex: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.todo-details span {
+    flex: 1;
+    text-align: center;
+    border-left: 1px solid #ccc; /* Vertikale Linie zwischen den Elementen */
+    padding: 0 10px; /* Abstand für bessere Lesbarkeit */
+}
+
+.todo-details span.due-date::before {
+    content: "Fällig in: ";
+    font-weight: bold;
+    color: #f9bb19;
+    margin-right: 5px;
+}
+
+.todo-details span.priority::before {
+    content: "Priorität: ";
+    font-weight: bold; 
+    color: #f9bb19;
+    margin-right: 5px; 
+}
+
+.todo-details span.duration::before {
+    content: "Zeitaufwand: ";
+    font-weight: bold; 
+    color: #f9bb19;
+    margin-right: 5px;
+}
+
+.editButton {
+    margin-left: 10px;
+    border-left: 1px solid #ccc; /* Linie vor jedem Button */
+    padding: 5px 10px;
+}
+
+.löschenButton {
+    margin-left: 10px;
+    border-left: 1px solid #ccc; /* Linie vor jedem Button */
+    padding: 5px 10px;
+    justify-content: flex-end;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.popup-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 10px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus { 
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
