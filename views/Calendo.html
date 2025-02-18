@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,53 +9,103 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="Calendo.css">
 </head>
-
 <body>
-    <h1>CalenDo</h1>
+    <h1 >CalenDo</h1>
     <div class="container_big">
         <div class="headerContainer">
-            <h2>Meine To-Do-Liste</h2>
-            <div class="startTimer">
-                Timer starten <button onclick="startTimer" id="startTimer"> &#9654;</button>
+            <div class="header-info">
+                <div class="header-left">
+                    <h2>Heute</h2>
+                    <div id="currentDateTime" class="date-time-display"></div>
+                </div>
+                <div class="startTimer">
+                    <span class="button-text">Timer starten</span>
+                    <button class="timer-button">
+                        <span class="triangle">&#9654;</span>
+                    </button>
+                </div>
+            </div>
+            <div class="statistics-container">
+                <div class="stat-card">
+                    <div class="stat-header">Stunden diese Woche</div>
+                    <div class="stat-body">
+                        <div class="stat-number" id="hoursThisWeek">0</div>
+                        <div class="stat-icon">⏱️</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">Stunden heute</div>
+                    <div class="stat-body">
+                        <div class="stat-number" id="hoursToday">0</div>
+                        <div class="stat-icon">🔔</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">Erledigte Aufgaben</div>
+                    <div class="stat-body">
+                        <div class="stat-number" id="tasksCompleted">0</div>
+                        <div class="stat-icon">✅</div>
+                    </div>
             </div>
         </div>
-        <div class="input-section">
-            <input type="text" id="taskName" placeholder="Name der To-Do" />
-            <input type="datetime-local" id="deadline" />
-            <input type="duration" id="taskDuration" placeholder="Dauer in Minuten" />
-            <label><input type="checkbox" id="taskPriorityW"> Wichtig?</label>
-            <label><input type="checkbox" id="taskPriorityD"> Dringend?</label>
-            <button onclick="openAddTaskPopup()" id="addTask">To-Do hinzufügen</button>
+<div id="todoModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>Neue Aufgabe hinzufügen</h2>
+        <div class="modal-input-section">
+            <input type="text" id="modalTaskName" placeholder="Aufgabenname">
+            <input type="datetime-local" id="modalDeadline">
+            <input type="checkbox" id="modalTaskPriorityW"> Wichtig
+            <input type="checkbox" id="modalTaskPriorityD"> Dringend
+            <select id="modalIconSelect">
+                <option value="🛒">🛒</option>
+                <option value="📚">📚</option>
+                <option value="💼">💼</option>
+                <option value="🏃">🏃</option>
+                <option value="🍽️">🍽️</option>
+                <option value="🎉">🎉</option>
+                <option value="🛏️">🛏️</option>
+                <option value="🚗">🚗</option>
+                <option value="✈️">✈️</option>
+                <option value="🏠">🏠</option>
+                <option value="🛠️">🛠️</option>
+                <option value="💡">💡</option>
+                <option value="📅">📅</option>
+                <option value="📞">📞</option>
+                <option value="💻">💻</option>
+                <option value="🎓">🎓</option>
+                <option value="📝">📝</option>
+                <option value="🎵">🎵</option>
+                <option value="📷">📷</option>
+                <option value="📺">📺</option>
+            </select>
+            <button onclick="saveModalTask()">Hinzufügen</button>
         </div>
-        <div class="container_small">
-            sortieren nach:
-            <div class="sort-buttons">
-                <button onclick="sortTasks('dueDate')">Fälligkeit </button>
-                <button onclick="sortTasks('priority')">Priorität</button>
-                <button onclick="sortTasks('added')">Zuletzt hinzugefügt</button>
-                <button onclick="sortTasks('duration_niedrig-hoch')">Zeitaufwand (niedrig -> hoch)</button>
-                <button onclick="sortTasks('duration_hoch-niedrig')">Zeitaufwand (hoch -> niedrig) </button>
-            </div>
-
+    </div>
+</div>
+<div class="task-controls">
+    <button onclick="openModal()" class="AddNewTask">Neue Aufgabe hinzufügen</button>
+    <div class="sort-container">
+        <button class="sort-dropbtn">Sortieren nach</button>
+        <div class="sort-dropdown-content">
+            <button onclick="sortTasks('dueDate')">Fälligkeit</button>
+            <button onclick="sortTasks('priority')">Priorität</button>
+            <button onclick="sortTasks('added')">Zuletzt hinzugefügt</button>
+            <button onclick="sortTasks('duration_niedrig-hoch')">Zeitaufwand (niedrig -> hoch)</button>
+            <button onclick="sortTasks('duration_hoch-niedrig')">Zeitaufwand (hoch -> niedrig)</button>
+        </div>
+    </div>
+</div>
+    
+        
+        <div class="task-list-container">
             <ul id="taskList"></ul>
-
         </div>
 
-        <!-- Pop-Up-Formular -->
-        <div id="addTaskPopup" class="popup">
-            <div class="popup-content">
-                <span class="close" onclick="closeAddTaskPopup()">&times;</span>
-                <h2>Neue Aufgabe hinzufügen</h2>
-                <input type="text" id="popupTaskName" placeholder="Name der To-Do" />
-                <input type="datetime-local" id="popupDeadline" />
-                <input type="number" id="popupTaskDuration" placeholder="Dauer in Minuten" />
-                <label><input type="checkbox" id="popupTaskPriorityW"> Wichtig?</label>
-                <label><input type="checkbox" id="popupTaskPriorityD"> Dringend?</label>
-                <button onclick="addTaskFromPopup()" id="popupAddTask">Hinzufügen</button>
-            </div>
+        <div class="completed-task-container">
+            <h3>Erledigte Aufgaben:</h3>
+            <ul id="completedTaskList"></ul>
         </div>
-
-        <script src="Calendo.js"></script> <!-- js Verlinkung -->
+    <script src="Calendo.js"></script> <!-- js Verlinkung -->
 </body>
-
 </html>

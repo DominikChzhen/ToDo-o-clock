@@ -1,171 +1,228 @@
+// Initialisierung beim Laden der Seite
 document.addEventListener('DOMContentLoaded', function () {
-    loadTasks();
+    loadTasks(); // Lädt die Aufgaben aus dem lokalen Speicher und zeigt sie an
+    displayCompletedTasks(); // Stellt sicher, dass die erledigten Aufgaben beim Start geladen werden
 });
 
-function saveTasks() {
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-}
+// Aufgaben-Array aus dem lokalen Speicher laden
+const tasks = JSON.parse(localStorage.getItem('tasks')) || []; // Lädt die Aufgaben aus dem lokalen Speicher oder initialisiert ein leeres Array
 
-function formatRemainingTime(deadline) {
+// Datum und Uhrzet aktualisieren
+function updateDateTime() {
+    const dateTimeElement = document.getElementById('currentDateTime');
     const now = new Date();
-    const dueDate = new Date(deadline);
-    let diff = dueDate.getTime() - now.getTime();
-
-    if (diff < 0) {
-        return "Deadline überschritten";
-    }
     
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    diff -= days * (1000 * 60 * 60 * 24);
+    const dayOptions = { weekday: 'long' }; 
+    const dateOptions = { day: 'numeric', month: 'long', year: 'numeric' };
+    const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
 
-    const hours = Math.floor(diff / (1000 * 60 * 60));
-    diff -= hours * (1000 * 60 * 60);
-
-    const minutes = Math.floor(diff / (1000 * 60));
-
-    let remainingTime = '';
-    if (days > 0) remainingTime += `${days} Tage, `;
-    if (hours > 0 || days > 0) remainingTime += `${hours} Stunden, `;
-    remainingTime += `${minutes} Minuten`;
-
-    return remainingTime;
+    // Deutsches Format mit langen Datumsformaten und freundlichem Tagesnamen
+    const day = now.toLocaleDateString('de-DE', dayOptions);
+    const date = now.toLocaleDateString('de-DE', dateOptions);
+    const time = now.toLocaleTimeString('de-DE', timeOptions);
+  
+    dateTimeElement.textContent = `${day} ${date} | ${time}`;
 }
 
-function loadTasks() {
-    const taskList = document.getElementById('taskList');
-    taskList.innerHTML = '';
-    
-    tasks.forEach((task, index) => {
-        const li = document.createElement('li');
-        
-        // Name der Todo
-        const taskNameDiv = document.createElement('div');
-        taskNameDiv.className = 'todo-name';
-        taskNameDiv.textContent = task.task;
+// Initiales Setzen von Datum und Uhrzeit
+updateDateTime();
 
-        // Todo-Eigenschaften
-        const taskDetailsDiv = document.createElement('div');
-        taskDetailsDiv.className = 'todo-details';
+// Aktualisiert Datum und Uhrzeit jede Sekunde
+setInterval(updateDateTime, 1000);
 
-        // Berechne verbleibende Zeit
-        const remainingTime = formatRemainingTime(task.dueDate);
-        const dueDateSpan = document.createElement('span');
-        dueDateSpan.className = 'due-date';
-        dueDateSpan.textContent = remainingTime;
-
-        const prioritySpan = document.createElement('span');
-        prioritySpan.className = 'priority';
-        prioritySpan.textContent = getEisenhowerPriorityLabel(task);
-
-        const durationSpan = document.createElement('span');
-        durationSpan.className = 'duration';
-        durationSpan.textContent = `${task.duration} Minuten`;
-
-        // Buttons für Bearbeiten und Löschen
-        const editButton = document.createElement('button');
-        editButton.textContent = 'Bearbeiten';
-        editButton.onclick = () => editTask(index);
-        editButton.className = 'editButton';
-
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Löschen';
-        deleteButton.onclick = () => deleteTask(index);
-        deleteButton.classList.add('löschenButton');
-
-        // Zusammenfügen der Todo Eigenschaften
-        taskDetailsDiv.appendChild(dueDateSpan);
-        taskDetailsDiv.appendChild(prioritySpan);
-        taskDetailsDiv.appendChild(durationSpan);
-
-        // Hinzufügen zur Todo-Liste
-        li.appendChild(taskNameDiv);
-        li.appendChild(taskDetailsDiv);
-        li.appendChild(editButton);
-        li.appendChild(deleteButton);
-
-        // Li-Element zum Task-List Container hinzufügen
-        taskList.appendChild(li);
-    });
+//Modal-Funktionen
+function openModal() {
+    document.getElementById('todoModal').style.display = 'block'; // Öffnet das Modal
 }
 
-let tasks = JSON.parse(localStorage.getItem('tasks')) || [
-    { task: "Einkaufen", dueDate: "2024-01-08", wichtig: true, dringend: false, duration: 60 },
-    { task: "Rechnung bezahlen", dueDate: "2024-01-01", wichtig: true, dringend: true, duration: 10 },
-    { task: "Meeting vorbereiten", dueDate: "2024-01-12", wichtig: true, dringend: false, duration: 120 }
-];
+function closeModal() {
+    document.getElementById('todoModal').style.display = 'none'; // Schließt das Modal
+}
+//Aufgabe aus dem Modal speichern
+function saveModalTask() {
+    const taskName = document.getElementById('modalTaskName').value;
+    const deadline = document.getElementById('modalDeadline').value;
+    const taskPriorityW = document.getElementById('modalTaskPriorityW').checked;
+    const taskPriorityD = document.getElementById('modalTaskPriorityD').checked;
+    const taskIcon = document.getElementById('modalIconSelect').value;
 
-function addTask() {
-    const taskName = document.getElementById('taskName').value;
-    const deadline = document.getElementById('deadline').value;
-    const taskPriorityW = document.getElementById('taskPriorityW').checked;
-    const taskPriorityD = document.getElementById('taskDurationD').checked;
-    const taskDuration = document.getElementById('taskDuration').value;
-
-    if (taskName && deadline) {
+    if (taskName) {
         const newTask = {
-            task: taskName,
-            dueDate: function formatRemainingTime(deadline) {
-    const now = new Date();
-    const dueDate = new Date(deadline);
-    let diff = dueDate.getTime() - now.getTime(); // berechnet die Differenz zwischen der Fälligkeit (dueDate) und der aktuellen Zeit (now)
-
-    if (diff < 0) { //prüft, ob die diff negativ ist, was bedeutet, dass das Fälligkeitsdatum bereits in der Vergangenheit liegt
-        return "Deadline überschritten";
-    }
-    
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24)); //Berechnet die Anzahl der vollen Tage (days), indem die Differenz durch die Anzahl der Millisekunden an einem Tag (1000 * 60 * 60 * 24) dividiert wird, und zieht dann diese Tage von diff ab.
-    diff -= days * (1000 * 60 * 60 * 24); 
-
-    const hours = Math.floor(diff / (1000 * 60 * 60));//Berechnet die Anzahl der verbleibenden Stunden (hours) und zieht diese ebenfalls von der restlichen Differenz ab.
-    diff -= hours * (1000 * 60 * 60);
-
-    const minutes = Math.floor(diff / (1000 * 60)); //prüft was in Minuten übrig bleibt
-
-    let remainingTime = '';
-    if (days > 0) remainingTime += `${days} Tage, `;
-    if (hours > 0 || days > 0) remainingTime += `${hours} Stunden, `;
-    remainingTime += `${minutes} Minuten`;
-
-    return remainingTime; // wert für die verbleibende Zeit bis zur Deadline
-}
-,
-            wichtig: taskPriorityW,  
+            name: taskName,
+            dueDate: deadline,
+            wichtig: taskPriorityW,
             dringend: taskPriorityD,
-            duration: parseInt(taskDuration) || 0,
-            added: Date.now()
+            added: Date.now(),
+            icon: taskIcon
         };
         tasks.push(newTask);
         saveTasks();
         loadTasks();
-        
-        // Felder nach dem Hinzufügen zurücksetzen
-        document.getElementById('taskName').value = '';
-        document.getElementById('deadline').value = '';
-        document.getElementById('taskPriorityW').checked = false; 
-        document.getElementById('taskPriorityD').checked = false; 
-        document.getElementById('taskDuration').value = '';
+        closeModal(); // Schließt das Modal nach dem Hinzufügen der Aufgabe
+
+        // Felder zurücksetzen
+        document.getElementById('modalTaskName').value = '';
+        document.getElementById('modalDeadline').value = '';
+        document.getElementById('modalTaskPriorityW').checked = false;
+        document.getElementById('modalTaskPriorityD').checked = false;
     } else {
-        alert('Die Aufgabe konnte nicht hinzugefügt werden. Bitte achte darauf sowohl eine Bezeichnung für die Aufgabe als auch das Fälligkeitsdatum mit Uhrzeit, die Priorität und die geschätzte Bearbeitungsdauer der Aufgabe an.');
+        alert('Bitte füllen Sie das Aufgabenname-Feld aus.');
     }
 }
 
+//Aufgabe hinzufügen
+function addTask() {
+    const taskName = document.getElementById('taskName').value;
+    const deadline = document.getElementById('deadline').value;
+    const taskPriorityW = document.getElementById('taskPriorityW').checked;
+    const taskPriorityD = document.getElementById('taskPriorityD').checked;
+    const taskDuration = document.getElementById('taskDuration').value;
+    const taskIcon = document.getElementById('icon-select').value;
+
+    if (taskName && deadline && taskDuration) {
+        const newTask = {
+            name: taskName,
+            dueDate: deadline,
+            wichtig: taskPriorityW,
+            dringend: taskPriorityD,
+            duration: parseInt(taskDuration) || 0,
+            added: Date.now(),
+            icon: taskIcon
+        };
+        tasks.push(newTask);
+        saveTasks();
+        loadTasks();
+
+        // Felder nach dem Hinzufügen zurücksetzen
+        document.getElementById('taskName').value = '';
+        document.getElementById('deadline').value = '';
+        document.getElementById('taskPriorityW').checked = false;
+        document.getElementById('taskPriorityD').checked = false;
+        document.getElementById('taskDuration').value = '';
+        document.getElementById('icon-select').value = '🛒'; // Zurücksetzen auf Standard
+    } else {
+        alert('Die Aufgabe konnte nicht hinzugefügt werden. Bitte achte darauf sowohl eine Bezeichnung für die Aufgabe als auch das Fälligkeitsdatum mit Uhrzeit, die Priorität und die geschätzte Bearbeitungsdauer der Aufgabe anzugeben.');
+    }
+}
+//Todo hinzufügen
+function addTodo() {
+    const iconSelect = document.getElementById('icon-select');
+    const todoInput = document.getElementById('todo-input');
+    const todoList = document.getElementById('todo-list');
+
+    const icon = iconSelect.value;
+    const todoText = todoInput.value;
+
+    const todoItem = document.createElement('div');
+    todoItem.className = 'todo-item';
+
+    const iconElement = document.createElement('span');
+    iconElement.className = 'icon';
+    iconElement.textContent = icon;
+
+    const textElement = document.createElement('span');
+    textElement.textContent = todoText;
+
+    todoItem.appendChild(iconElement);
+    todoItem.appendChild(textElement);
+    todoList.appendChild(todoItem);
+
+    todoInput.value = '';
+}
+
+//Aufgaben speichern
+function saveTasks() {
+    localStorage.setItem('tasks', JSON.stringify(tasks)); // Speichert die Aufgaben im lokalen Speicher
+}
+
+//Verbleibende Zeit formatieren
+function formatRemainingTime(deadline) {
+    const now = new Date();
+    const dueDate = new Date(deadline);
+    const timeDiff = dueDate - now;
+
+    const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((timeDiff % (1000 * 60)) / (1000 * 60));
+
+    return `${days}d ${hours}h ${minutes}m`;
+}
+
+//Aufgaben laden
+function loadTasks() {
+    const taskList = document.getElementById('taskList');
+    taskList.innerHTML = '';
+
+    tasks.forEach((task, index) => {
+        const taskItem = document.createElement('li');
+        taskItem.className = 'task-item';
+
+        const iconElement = document.createElement('span');
+        iconElement.className = 'task-icon';
+        iconElement.textContent = task.icon;
+
+        const textElement = document.createElement('span');
+        textElement.className = 'task-name';
+        textElement.textContent = task.name;
+
+        const progressBar = document.createElement('div');
+        progressBar.className = 'progress-bar';
+        
+        const progress = document.createElement('div');
+        progress.className = 'progress';
+        progress.style.width = "100%"; 
+        progressBar.appendChild(progress);
+
+        // Erledigt Button
+        const completeButton = document.createElement('button');
+        completeButton.className = 'completeButton';
+        completeButton.textContent = 'Erledigt';
+        completeButton.onclick = () => completeTask(index);
+
+        // Löschen Button
+        const deleteButton = document.createElement('button');
+        deleteButton.className = 'deleteButton';
+        deleteButton.textContent = 'Löschen';
+        deleteButton.onclick = () => deleteTask(index);
+
+        // Bearbeiten Button
+        const editButton = document.createElement('button');
+        editButton.className = 'editButton';
+        editButton.textContent = 'Bearbeiten';
+        editButton.onclick = () => editTask(index);
+
+        taskItem.appendChild(iconElement);
+        taskItem.appendChild(textElement);
+        taskItem.appendChild(progressBar);
+        taskItem.appendChild(completeButton);
+        taskItem.appendChild(deleteButton);
+        taskItem.appendChild(editButton);
+        taskList.appendChild(taskItem);
+    });
+}
+
+//Eisenhower-Matrix bestimmen
 function getEisenhowerPriority(task) {  /* Sortieren nach wichtig & dringend */
-    if (task.dringend && task.wichtig) return 1; // zuerst erledigen
-    if (task.dringend && !task.wichtig) return 2; // delegieren
-    if (!task.dringend && task.wichtig) return 3; // terminieren
-    if (!task.dringend && !task.wichtig) return 4; // verwerfen
-    return 5;  
+    if (task.dringend && task.wichtig) return 1; // first to be done
+    if (task.dringend && !task.wichtig) return 2; // delegate
+    if (!task.dringend && task.wichtig) return 3; // schedule
+    if (!task.dringend && !task.wichtig) return 4; // discard
+    return 5;
 }
 
-function getEisenhowerPriorityLabel(task) {  /* richtig anzeigen */
-    if (task.dringend && task.wichtig) return " 1, zuerst erledigen";
-    if (task.dringend && !task.wichtig) return "3, delegieren";
-    if (!task.dringend && task.wichtig) return "2, terminieren";
-    if (!task.dringend && !task.wichtig) return "verwerfen";
-    return "Unbekannt";
+function getEisenhowerPriorityLabel(task) {
+    if (task.wichtig && task.dringend) {
+        return 'Wichtig und Dringend';
+    } else if (task.wichtig) {
+        return 'Wichtig';
+    } else if (task.dringend) {
+        return 'Dringend';
+    } else {
+        return 'Normal';
+    }
 }
 
-
+//Aufgabe sortieren
 function sortTasks(criteria) {
     if (criteria === 'dueDate') {
         tasks.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
@@ -177,105 +234,133 @@ function sortTasks(criteria) {
         tasks.sort((a, b) => a.duration - b.duration);
     } else if (criteria === 'duration_hoch-niedrig') {
         tasks.sort((a, b) => b.duration - a.duration);
-    } else if (criteria === 'eisenhower') {  
-        tasks.sort((a, b) => getEisenhowerPriority(a) - getEisenhowerPriority(b)); 
     }
     loadTasks();
 }
 
+//Aufgabe bearbeiten
 function editTask(index) {
+    // Get task details for editing
     const task = tasks[index];
-    
-    const newTaskName = prompt('Bezeichnung der To Do bearbeiten:', task.task);
+    const newTaskName = prompt('Bezeichnung der To-Do bearbeiten:', task.name);
     const newDueDate = prompt('Fälligkeitsdatum bearbeiten:', task.dueDate);
     const newPriorityW = prompt('Ist die Aufgabe wichtig? (ja/nein)', task.wichtig ? 'ja' : 'nein'); 
     const newPriorityD = prompt('Ist die Aufgabe dringend? (ja/nein)', task.dringend ? 'ja' : 'nein');
-    const newDuration = prompt('geschätzten Zeitaufwand (in Minuten) bearbeiten:', task.duration);
 
     if (newTaskName && newDueDate) {
-        tasks[index].task = newTaskName;
-        tasks[index].dueDate = newDueDate;
-        tasks[index].wichtig = stringToBoolean(newPriorityW);  // Correct conversion
-        tasks[index].dringend = stringToBoolean(newPriorityD); // Correct conversion  
-        tasks[index].duration = parseInt(newDuration) || task.duration;
-        
-        console.log('Updated Task:', tasks[index]); // Debug line to check updates
+        task.name = newTaskName;
+        task.dueDate = newDueDate;
+        task.wichtig = stringToBoolean(newPriorityW); // Correct conversion
+        task.dringend = stringToBoolean(newPriorityD); // Correct conversion
+        task.duration = parseInt(newDuration) || task.duration;
+
+        console.log('Updated Task:', task); // Debug line to check updates
         saveTasks(); // Attempt to save updated tasks
         loadTasks(); // Attempt to reload the updated tasks
     } else {
         alert('Bearbeitung abgebrochen oder unvollständig. Änderungen wurden nicht gespeichert.');
     }
 }
+
 function stringToBoolean(response) {
     return response.trim().toLowerCase() === 'ja';
 }
+
+//Aufgabe speichern
 let debounceTimeout;
 function debounceSave() {
     clearTimeout(debounceTimeout);
-    debounceTimeout = setTimeout(saveTasks, 300);  // Speicherung nach 300ms Inaktivität
+    debounceTimeout = setTimeout(saveTasks, 300); // Save after 300ms of inactivity
 }
 
+//Aufgabe löschen
 function deleteTask(index) {
     if (confirm("Bist du sicher, dass du dieses To-Do löschen möchtest?")) {
-        tasks.splice(index, 1);
-        console.log('Nach dem Löschen:', tasks); 
+        tasks.splice(index, 1); // Entfernt die Aufgabe aus dem Array
+        saveTasks();            // Speichert die aktualisierte Aufgabenliste im lokalen Speicher
+        loadTasks();            // Lädt die Aufgabenliste neu
+    }
+}
+
+//Aufgabe als erledigt markieren
+function completeTask(index) {
+    const completedTasks = JSON.parse(localStorage.getItem('completedTasks')) || [];
+    completedTasks.push(tasks[index]);
+    tasks.splice(index, 1);
+    localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
+    saveTasks();
+    loadTasks();
+    displayCompletedTasks();
+}
+
+//Erledigte Aufgaben anzeigen
+function displayCompletedTasks() {
+    const completedTaskList = document.getElementById('completedTaskList');
+    const completedTasks = JSON.parse(localStorage.getItem('completedTasks')) || [];
+    completedTaskList.innerHTML = '';
+
+    completedTasks.forEach((task, index) => {
+        const completedTaskItem = document.createElement('li');
+        completedTaskItem.textContent = `${task.icon} ${task.name}`;
+
+        // Rückgängig machen Button
+        const undoButton = document.createElement('button');
+        undoButton.textContent = 'Rückgängig';
+        undoButton.onclick = () => undoTask(index);
+
+        completedTaskItem.appendChild(undoButton);
+        completedTaskList.appendChild(completedTaskItem);
+    });
+}
+
+//Erledigte Aufgabe rückgängig machen
+function undoTask(index) {
+    const completedTasks = JSON.parse(localStorage.getItem('completedTasks')) || [];
+    if (index >= 0 && index < completedTasks.length) {
+        const taskToUndo = completedTasks.splice(index, 1)[0]; // Entfernt aus den erledigten Aufgaben
+        tasks.push(taskToUndo);  // Fügt es zurück zur Hauptaufgabenliste hinzu
+        localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
         saveTasks();
         loadTasks();
-    }
-    function saveTasks() {
-        // Convert task list to JSON string and save to localStorage
-        localStorage.setItem('tasks', JSON.stringify(tasks));
-    }
-    
-    function loadTasks() {
-        const taskList = document.getElementById('taskList');
-        taskList.innerHTML = '';
-        
-        tasks = JSON.parse(localStorage.getItem('tasks')) || []; // Ensure tasks are re-loaded
-    
-        tasks.forEach((task, index) => {
-            // Existing code to create elements and display each task...
-        });
-    }
-}
-
-function openAddTaskPopup() {
-    document.getElementById('addTaskPopup').style.display = 'block';
-}
-
-function closeAddTaskPopup() {
-    document.getElementById('addTaskPopup').style.display = 'none';
-}
-
-function addTaskFromPopup() {
-    const taskName = document.getElementById('popupTaskName').value;
-    const deadline = document.getElementById('popupDeadline').value;
-    const taskPriorityW = document.getElementById('popupTaskPriorityW').checked;
-    const taskPriorityD = document.getElementById('popupTaskPriorityD').checked;
-    const taskDuration = document.getElementById('popupTaskDuration').value;
-
-    if (taskName && deadline) {
-        const newTask = {
-            task: taskName,
-            dueDate: deadline,
-            wichtig: taskPriorityW,
-            dringend: taskPriorityD,
-            duration: parseInt(taskDuration) || 0,
-            added: Date.now()
-        };
-        tasks.push(newTask);
-        saveTasks();
-        loadTasks();
-        
-        // Felder nach dem Hinzufügen zurücksetzen
-        document.getElementById('popupTaskName').value = '';
-        document.getElementById('popupDeadline').value = '';
-        document.getElementById('popupTaskPriorityW').checked = false; 
-        document.getElementById('popupTaskPriorityD').checked = false; 
-        document.getElementById('popupTaskDuration').value = '';
-        
-        closeAddTaskPopup();
+        displayCompletedTasks();
     } else {
-        alert('Die Aufgabe konnte nicht hinzugefügt werden. Bitte achte darauf sowohl eine Bezeichnung für die Aufgabe als auch das Fälligkeitsdatum mit Uhrzeit, die Priorität und die geschätzte Bearbeitungsdauer der Aufgabe an.');
+        alert('Ungültiger Index für das Rückgängigmachen.');
     }
 }
+
+//Dropdown schließen, wenn außerhalb geklickt wird
+window.onclick = function(event) {
+    if (!event.target.matches('.sort-dropbtn')) {
+        var dropdowns = document.getElementsByClassName("sort-dropdown-content");
+        for (let i = 0; i < dropdowns.length; i++) {
+            let openDropdown = dropdowns[i];
+            if (openDropdown.style.display === "block") {
+                openDropdown.style.display = "none";
+            }
+        }
+    }
+}
+
+//Zähler für erledigte Aufgaben
+let completedTaskCount = localStorage.getItem('completedTaskCount') ? JSON.parse(localStorage.getItem('completedTaskCount')) : 0;
+const completedCountElement = document.getElementById('tasksCompleted');
+
+// Funktion zum Hochzählen, wenn eine Aufgabe als erledigt markiert wird
+function completeTask(index) {
+    const completedTasks = JSON.parse(localStorage.getItem('completedTasks')) || [];
+    completedTasks.push(tasks[index]);
+    tasks.splice(index, 1);
+    localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
+
+    // Update the completed task count
+    completedTaskCount++;
+    completedCountElement.textContent = completedTaskCount;
+    localStorage.setItem('completedTaskCount', JSON.stringify(completedTaskCount));
+
+    saveTasks();
+    loadTasks();
+    displayCompletedTasks();
+}
+
+// Initialisiere die Anzeige mit dem gespeicherten Wert
+completedCountElement.textContent = completedTaskCount;
