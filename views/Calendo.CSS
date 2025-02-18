@@ -3,14 +3,11 @@
     --seasalt: #f8f9faff;
     --hellgrau: #dee2e6ff;
     --hellrosa: #c799a6ff;
-    --dunkelgrau: #212529ff; /* Textfarbe */
-    /*Hello*/
+    --dunkelgrau: #212529ff;
 }
 
 body {
     font-family: 'Poppins', sans-serif;
-    font-weight: 100;
-    font-style: normal;
     margin: 0;
     background-color: white;
     display: grid;
@@ -18,116 +15,160 @@ body {
     height: 100vh;
 }
 
-.H1 {
+h1 {
     color: black;
     text-shadow: 1px 1px 2px #212529ff;
-    text-align: left;
-    background: white;
+    text-align: center;
     width: 100%;
-    height: 40px;
-    padding: 30;
     margin: 0;
 }
 
+/* Container-Stile */
 .container_big {
     width: 900px;
-    background-color: #f8f9faff;
+    background-color: var(--seasalt);
     border-radius: 15px;
     text-align: center;
     padding: 20px;
     margin-top: 5px;
 }
+
+.container_small {
+    background-color: white;
+    padding: 15px;
+    border-radius: 15px;
+}
+
 .headerContainer {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.completed-task-container {
+    font-size: 10px;
+    background-color: #FFF8E8;
+    padding: 15px;
+    border-radius: 15px;
+    margin-top: 20px;
+}
+
+.task-list-container {
+    margin-bottom: 20px;
+}
+
+/* Header-Stile */
+.header-info {
     display: flex;
-    justify-content: space-between;
-    align-items: center; /* Align vertically centered */
+    justify-content: space-between; 
+    align-items: center;
+}
+
+.header-left {
+    display: flex;
+    flex-direction: column; 
+    align-items: flex-start; 
     margin-bottom: 20px; 
 }
+
+/* Text-Stile */
 h2 {
-    text-align: left;
-    font-weight: 500;
+    margin: 0; 
+    padding: 0;
     font-size: 30px;
+    color: #333; 
 }
+
+.date-time-display {
+    font-size: 14px; 
+    color: #555; /* Heller als "Heute" für visuelle Hierarchie */
+    margin: 5px 0 0 0; 
+}
+
+/* Timer-Stile */
 .startTimer {
     display: flex;
-    align-items:center;
-    justify-content: flex-end;
-    margin: 10px;
-    width: 180px;
-    padding: 15px;
-    background-color: white;
-    border-radius: 15px;
-    gap: 5px;
-}
-
-.sort-buttons {
-    display: flex;
     align-items: center;
-    justify-content: space-around;
-    margin-bottom: 20px;
-    gap: 5px; /* Abstand zwischen Symbol und Text */
+    background-color: white; 
+    border-radius: 15px; 
+    padding: 10px 20px; 
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); 
 }
 
-.input-section {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    margin-bottom: 20px;
-    gap: 15px; /* Abstand zwischen den Elementen */
-    width: 850px;
-    /*border-radius: 15px; */
-   /* border: 1px solid #dee2e6ff;*/
-    text-align: center;
-    padding: 5px;
-    margin-top: 5px;
+.startTimer button {
+    background-color: #f9bb19ff;
+    font-size: 14px;
+    border-radius: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
 }
 
-#startTimer {
-    background-color: red; /* Hintergrundfarbe rot */
-    font-size: 20px;
+.startTimer button:hover,
+#AddNewTask:hover {
+    background-color: #FFD261;
+    color: #000;
+}
+
+/* Button-Stile */
+
+.button-text {
+    font-size: 16px;
+    color: black;
+    margin-right: 10px;
+}
+
+.timer-button {
+    background-color: #f9bb19; 
+    border: none;
+    border-radius: 10px; 
     padding: 10px;
-    color: white; /* Textfarbe weiß */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-#startTimer:hover {
-    background-color: darkred; /* Hintergrundfarbe beim Hover dunkleres Rot */
+.timer-button:hover {
+    background-color: #ffd261;
+}
+
+.triangle {
+    color: black; 
+    font-size: 21px; 
+}
+
+.AddNewTask {
+    background-color: #f9bb19ff;
     color: white;
-    font-weight: bolder;
+    border: none;
+    border-radius: 15px;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 12px;
 }
 
+.completeButton,
 button {
     padding: 10px;
+    font-size: 10px;
     background-color: #FFF8E8;
     color: black;
     border: none;
     cursor: pointer;
     border-radius: 15px;
     margin: 5px;
-    flex: 1;
 }
 
-#addTask { 
-    padding: 10px;
+.completeButton {
     background-color: #f9bb19ff;
-    color: #FFF8E8;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 5px;
-    margin: 5px;
-    flex: 1;
 }
 
-#addTask:hover {
-    background-color:  #FFD261;
-    font-weight: bold;
-    color: #212529ff;
+completeButton:hover {
+    background-color: #FFD261;
+    color: black;
 }
 
-button:hover {
-    background-color: #f9bb19ff;
-    font-weight: bolder;
-    color: white;
-}
+/* Listen-Stile */
 
 ul {
     list-style-type: none;
@@ -140,112 +181,103 @@ li {
     padding: 10px;
     border-radius: 5px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    flex-direction: column;
+    border: 1px solid #dee2e6;
 }
 
-.input-section input {
+/* Aufgabenliste-Stil */
+.task-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 10px; 
+    margin: 5px 0; 
     padding: 10px;
     border-radius: 5px;
-    border: 1px solid #ccc;
-}
-
-.container_small{
     background-color: white;
-    padding: 15px;
-    border-radius: 15px;
 }
 
-button.löschenButton {
-    background-color:  #FFF8E8;
-    color: #f9bb19ff;
-    border: none;
-    cursor: pointer;
-    font-size: 13px; 
-    margin-left: 500px; /* Für Rechts-Positionierung */
-    padding: 2px 3px; 
-    border-radius: 5px; 
+.task-icon {
+    flex: 0 0 30px;
+    margin-right: 10px;
 }
 
-button.löschenButton:hover {
-    background-color: #f9bb19ff;
-    color: white
-}
-
-/* Übergeordneter Container pro Todo */
-#taskList li {
-    background-color: white;
-    margin: 10px 0;
-    padding: 10px;
-    border-radius: 15px;
-    display: flex;
-    align-items: center;
-    border: 1px solid #dee2e6ff;
-}
-
-.todo-name, .editButton, .löschenButton {
-    text-align: center;
-}
-
-.todo-name {
+.task-name {
     flex: 1;
+    margin-right: 10px;
     font-size: larger;
-    text-align: center;
-    margin-bottom: 5px;
-    margin-top: 5px;
+    color: #212529ff;
 }
 
-.todo-details {
-    flex: 2;
+.task-duration {
+    background-color: var(--Gelb);
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+    margin-right: 10px;
+}
+
+/* Fortschrittsbalken */
+
+.progress-bar {
+    flex: 100;
+    height: 5px;
+    background-color: var(--hellgrau);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    background-color: var(--Gelb);
+    transition: width 0.5s;
+}
+
+/* Statistik-Stil */
+.statistics-container {
+    display: flex;
+    justify-content: space-around; 
+    gap: 20px; /* Abstand zwischen den Karten */
+    width: 100%;
+}
+
+.stat-card {
+    flex-grow: 1;
+    background-color: #fff;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    min-width: 150px;
+    text-align: center;
+}
+
+.stat-header {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.stat-body {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-end;
 }
 
-.todo-details span {
-    flex: 1;
-    text-align: center;
-    border-left: 1px solid #ccc; /* Vertikale Linie zwischen den Elementen */
-    padding: 0 10px; /* Abstand für bessere Lesbarkeit */
-}
-
-.todo-details span.due-date::before {
-    content: "Fällig in: ";
+.stat-number {
+    font-size: 24px;
     font-weight: bold;
-    color: #f9bb19;
-    margin-right: 5px;
+    color: #212529;
 }
 
-.todo-details span.priority::before {
-    content: "Priorität: ";
-    font-weight: bold; 
-    color: #f9bb19;
-    margin-right: 5px; 
+.stat-icon {
+    font-size: 24px;
+    color: var(--Gelb);
 }
 
-.todo-details span.duration::before {
-    content: "Zeitaufwand: ";
-    font-weight: bold; 
-    color: #f9bb19;
-    margin-right: 5px;
-}
-
-.editButton {
-    margin-left: 10px;
-    border-left: 1px solid #ccc; /* Linie vor jedem Button */
-    padding: 5px 10px;
-}
-
-.löschenButton {
-    margin-left: 10px;
-    border-left: 1px solid #ccc; /* Linie vor jedem Button */
-    padding: 5px 10px;
-    justify-content: flex-end;
-}
-
-.popup {
-    display: none;
+/* Modal-Stile */
+.modal {
+    display: none; 
     position: fixed;
     z-index: 1;
     left: 0;
@@ -255,27 +287,136 @@ button.löschenButton:hover {
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.4);
 }
-
-.popup-content {
+.modal-content {
     background-color: #fefefe;
-    margin: 15% auto;
+    margin: 15% auto; 
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
     max-width: 500px;
     border-radius: 10px;
 }
-
 .close {
     color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
 }
-
 .close:hover,
-.close:focus { 
+.close:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+.modal-input-section {
+    display: flex;
+    flex-direction: column;    
+    gap: 10px;
+}
+
+.modal-input-section input,
+.modal-input-section select,
+.modal-input-section button {
+    padding: 10px;
+}
+
+/* Aufgabensteuerung-Stil */
+.task-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.sort-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.task-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.task-header .add-task-button {
+    margin-right: auto;
+}
+
+.task-header .sort-dropdown {
+    margin-left: auto;
+}
+
+.input-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.container_small {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Sortier-Dropdown-Stil */
+.sort-container {
+    position: relative;
+    display: inline-block;
+    float: right; /
+    margin-top: 10px; 
+    margin-right: 10px;
+}
+
+.sort-dropbtn {
+    background-color: #FFF8E8;
+    color: black;
+    padding: 10px;
+    font-size: 12px;
+    border: none;
+    cursor: pointer;
+    border-radius: 15px;
+}
+
+.sort-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    border-radius: 15px;
+    z-index: 1;
+    right: 0; 
+}
+
+.sort-container:hover .sort-dropdown-content {
+    display: block;
+}
+
+/* Style für buttons im dropdown */
+.sort-dropdown-content button {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    border: none;
+    background: white;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+}
+
+.sort-dropdown-content button:hover {
+    background-color: #f1f1f1;
 }
