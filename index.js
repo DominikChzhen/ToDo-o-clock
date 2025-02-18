@@ -32,6 +32,10 @@ app.get("/", (req, res) => {
 app.get("/Calendo", (req, res) => {
     res.render("Calendo");
 })
+
+app.post("/cToDo", (req, res) => {
+    //save new todo to DB
+})
 /*
 //subreddit Search request
 app.post("/subreddit", (req, res) => {

@@ -320,6 +320,12 @@ function undoTask(index) {
         const taskToUndo = completedTasks.splice(index, 1)[0]; // Entfernt aus den erledigten Aufgaben
         tasks.push(taskToUndo);  // Fügt es zurück zur Hauptaufgabenliste hinzu
         localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
+
+        // Update the completed task count
+        completedTaskCount--;
+        completedCountElement.textContent = completedTaskCount;
+        localStorage.setItem('completedTaskCount', JSON.stringify(completedTaskCount));
+
         saveTasks();
         loadTasks();
         displayCompletedTasks();
