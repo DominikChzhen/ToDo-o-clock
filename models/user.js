@@ -1,15 +1,22 @@
 const mongoose = require("mongoose");
 const toDoSchema = new mongoose.Schema({
-    id: Number,
-    text: String,
-    important: Boolean,
+    name: String,
     dueDate: Date,
-    timeRequired: Number,
+    wichtig: Boolean,
+    dringend: Boolean,
+    addedAtTime: Number,
+    icon: Number
 })
 
 const userSchema = new mongoose.Schema({
-    name: String,
-    password: String,
+    username: {
+        type: String,
+        required: [true, "Username required!"]
+    },
+    password: {
+        type: String,
+        require: [true, "password required!"]
+    },
     toDo: [toDoSchema],
 })
 

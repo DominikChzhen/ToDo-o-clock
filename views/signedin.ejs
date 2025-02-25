@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Calendo</h1>
+    <p>user:<%=user.username%></p>
+    <br>
+    <div>
+        <form action="/createToDo" method="POST">
+            <p>Create ToDo:</p>
+            <label for="name">Enter Name:</label>
+            <input type="text" name="name" id="name" placeholder="name">
+
+            <label for="dueDate">due date:</label>
+            <input type="text" name="dueDate" id="dueDate" placeholder="dueDate">
+            
+            <button>Submit</button>
+        </form>
+    </div>
+    <p>ToDOs:</p>
+    <p><%=user.toDo%></p>
+    <hr>
+    <form action="/logout" method="POST">
+        <button>logout</button>
+    </form>
+    
+</body>
+</html>
