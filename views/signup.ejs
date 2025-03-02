@@ -4,20 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="Login.css"> 
 </head>
 <body>
     <h1>Calendo</h1>
-    <p>Sign Up:</p>
+
+    <% if(isUserTaken) {%>
+        <div class="wrongAuth">
+            <p class="wrongAuthText">&#9940 Username is already taken!</p>
+        </div>
+        <% } %>
+
+    <% if(isNoMatch) {%>
+        <div class="wrongAuth">
+            <p class="wrongAuthText">&#9940 Passwords don't match!</p>
+        </div>
+        <% } %>
+
     <form action="/signup" method="POST">
+        <h2>Sign Up</h2>
         <div>
-            <label for="username">Enter Username:</label>
-            <input type="text" name="username" id="username" placeholder="username">
+            <label for="username">Enter new Username:</label>
+            <input type="text" name="username" id="username">
         </div>
         <div>
-            <label for="password">Enter Password:</label>
-            <input type="password" name="password" id="password" placeholder="password">
+            <label for="password">Enter new Password:</label>
+            <input type="password" name="password" id="password">
+        </div>
+        <div>
+            <label for="password2">Enter new Password again:</label>
+            <input type="password" name="password2" id="password2">
         </div>
         <button>Sign up</button>
+    </form>
+    <form action="/" method="GET">
+        <p>You've already got an account?</p>
+        <button>Login</button></a>
     </form>
 </body>
 </html>

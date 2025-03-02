@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CalenDo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div>
+                <h1>Heute</h1>
+                <div class="date"></div>
+            </div>
+            <div class="time-tracker">
+                <button id="start-tracker">Start Time Tracker ▶</button>
+            </div>
+        </header>
+
+        <main class="main">
+            <div class="stats">
+                <div class="stat-box">
+                    <h3>Weekly Activity</h3>
+                    <span>0%</span>
+                </div>
+                <div class="stat-box">
+                    <h3>Worked This Week</h3>
+                    <span>40:00:05</span>
+                </div>
+                <div class="stat-box">
+                    <h3>Projects Worked</h3>
+                    <span>02</span>
+                </div>
+            </div>
+            
+            <div class="tasks">
+                <div class="tasks-header">
+                    <h2>To Do</h2>
+                    <button id="add-task">Aufgabe hinzufügen</button>
+                </div>
+                <div class="task-categories">
+                    <div class="task-category" id="important-urgent">
+                        <h3>Wichtig / Dringend</h3>
+                        <div class="task-list"></div>
+                    </div>
+                    <div class="task-category" id="important-not-urgent">
+                        <h3>Wichtig / Nicht dringend</h3>
+                        <div class="task-list"></div>
+                    </div>
+                    <div class="task-category" id="not-important-urgent">
+                        <h3>Nicht Wichtig / Dringend</h3>
+                        <div class="task-list"></div>
+                    </div>
+                    <div class="task-category" id="not-important-not-urgent">
+                        <h3>Nicht dringend / Nicht wichtig</h3>
+                        <div class="task-list"></div>
+                    </div>
+                </div>
+                <div class="archive">
+                    <h2>Archiv</h2>
+                    <div class="archive-list"></div>
+                </div>
+            </div>
+        </main>
+        
+    </div>
+
+    <!-- Pop-up-Fenster zur Erstellung neuer Aufgaben -->
+    <div id="task-popup" class="popup">
+        <div class="popup-content">
+            <span class="close">&times;</span>
+            <h3>Neue Aufgabe hinzufügen</h3>
+            <form id="task-form">
+                <label for="task-name">Name der Aufgabe:</label>
+                <input type="text" id="task-name" name="task-name" required>
+                
+                <label for="task-important">Wichtig:</label>
+                <input type="checkbox" id="task-important" name="task-important">
+                
+                <label for="task-urgent">Dringend:</label>
+                <input type="checkbox" id="task-urgent" name="task-urgent">
+                
+                <button type="submit">Hinzufügen</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Pop-up-Fenster zur Bearbeitung von Aufgaben -->
+    <div id="edit-task-popup" class="popup">
+        <div class="popup-content">
+            <span class="close">&times;</span>
+            <h3>Aufgabe bearbeiten</h3>
+            <form id="edit-task-form">
+                <label for="edit-task-name">Name der Aufgabe:</label>
+                <input type="text" id="edit-task-name" name="edit-task-name" required>
+                
+                <label for="edit-task-important">Wichtig:</label>
+                <input type="checkbox" id="edit-task-important" name="edit-task-important">
+                
+                <label for="edit-task-urgent">Dringend:</label>
+                <input type="checkbox" id="edit-task-urgent" name="edit-task-urgent">
+                
+                <button type="submit">Speichern</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

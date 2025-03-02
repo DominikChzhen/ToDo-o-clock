@@ -4,6 +4,7 @@ const toDoSchema = new mongoose.Schema({
     dueDate: Date,
     wichtig: Boolean,
     dringend: Boolean,
+    done: Boolean,
     addedAtTime: Number,
     icon: Number
 })

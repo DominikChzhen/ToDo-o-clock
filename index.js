@@ -25,15 +25,23 @@ mongoose.connect("mongodb://127.0.0.1:27017/calendoDB")
     console.log("OH NO ERROR!!");
 });
 
+let isWrongPassword = false;
+let isUserTaken = false;
+let isNoMatch = false;
 
-//Home
+//login page
 app.get("/", (req, res) => {
-    res.render("start");
+    res.render("start", {isWrongPassword});
+    isWrongPassword = false;
 })
 
+//signup page
 app.get("/signup", (req, res) => {
-    res.render("signup")
+    res.render("signup", {isUserTaken, isNoMatch})
+    isUserTaken = false;
+    isNoMatch = false;
 })
+
 //Calendo Home when logged in
 app.get("/calendo", async (req, res) => {
     if(!req.session.user_id){
@@ -41,10 +49,28 @@ app.get("/calendo", async (req, res) => {
     }
     const user = await User.findOne({_id:req.session.user_id});
     res.render("signedin", {user});
+    //res.render("Calendo")
 })
 
+//create new User
 app.post("/signup", async (req,res) => {
-    const { username, password } = req.body;
+    const { username, password, password2} = req.body;
+    //if the fields are empty just rerender
+    if(username == "" || password == ""){
+        return res.redirect("/signup");
+    }
+    //logik für nur ein username 
+    const userWithSameName = await User.findOne({username});
+    if(userWithSameName) isUserTaken = true;
+    //logik für password1 und password2 muss überein stimmen
+    if(password!==password2){
+        isNoMatch = true;
+    }
+    
+    if(isUserTaken||isNoMatch){
+        return res.redirect("/signup");
+    }
+
     const hash = await bcrypt.hash(password, 12);
     const user = new User({
         username,
@@ -65,10 +91,12 @@ app.post("/signup", async (req,res) => {
     res.redirect("/calendo")
 })
 
+//login 
 app.post("/login", async (req, res) => {
     const {username, password} = req.body;
     const user = await User.findOne({username});
     if(user == null){
+        isWrongPassword = true;
         return res.redirect("/");
     }
 
@@ -78,28 +106,35 @@ app.post("/login", async (req, res) => {
         req.session.user_id = user._id;
         return res.redirect("/calendo");
     } else {
+        isWrongPassword = true;
          return res.redirect("/");
     }
 })
 
+//logout
 app.post("/logout", (req, res) => {
-    //req.session.user_id = null;
     req.session.destroy();
     res.redirect("/");
 })
-    
+
+//TODO CRUD
+//create
 app.post("/createToDo", async (req, res) => {
-    //return res.send(req.body);
     //save new todo to DB
-    //const user = await User.findOne({_id:req.session.user_id});
-    await User.updateOne({_id:req.session.user_id}, {
-        $push: {toDo: {
+    try{
+    await User.updateOne(
+        {_id:req.session.user_id},
+        {$push: {toDo: {
             name: req.body.name,
-            dueDate: req.body.dueDate
+            dueDate: req.body.dueDate,
+            done: false
         }}
-    }).then(result => console.log("Comment added!", result))
-    .catch(err => console.log(err));
-    res.redirect("/calendo");
+        }
+    );
+    } catch {
+        return res.send("Wrong date!");
+    }
+    return res.redirect("/calendo");
     /*name: String,
     dueDate: Date,
     wichtig: Boolean,
@@ -107,22 +142,54 @@ app.post("/createToDo", async (req, res) => {
     addedTime: Number,
     icon: Number
     */
-})
-/*
-//subreddit Search request
-app.post("/subreddit", (req, res) => {
-    let {subreddit} = req.body;
+});
 
+//Update completet Status
+app.get("/completeToDo/:id", async (req, res) => {
+    const { id } = req.params;
+    const user = await User.findOne({_id: req.session.user_id});
+    const toDo = user.toDo.find(item => item._id == id);
+    const status = toDo.done;
+    try 
+    {
+        await User.updateOne
+        (
+            { _id: req.session.user_id, "toDo._id": id},  // Find user
+            {
+                $set:
+                {
+                    "toDo.$.done": !status
+                }
+            }
+        );
+
+    } catch (err) {
+        console.error(err);
+        return res.status(500).send("Error deleting To-Do.");
+    }
+    return res.redirect("/calendo");
 })
 
-//new comment post request
-app.post("/subreddit/comment", (req, res) => {
-            //res.redirect(`http://localhost:8080/r/${currentSubreddit}`)
-            //res.render("subreddit", {subreddit, comments: subs.comments})
+//delete
+app.get("/deleteToDo/:id", async (req, res) => {
+    const { id } = req.params;
+    try {
+        await User.updateOne(
+            { _id: req.session.user_id },  // Find user
+            { $pull: { toDo: { _id: id } } } // Remove toDo
+        );
+    } catch (err) {
+        console.error(err);
+        return res.status(500).send("Error deleting To-Do.");
+    }
+    return res.redirect("/calendo");
 })
 
-//pach to edit comment
-*/
-app.listen(8080, () => {
+//404 Route
+app.use((req, res) => {
+    res.status(404).send("404 NOT FOUND!");
+})
+
+app.listen(3000, () => {
     console.log("Server is listening...");
 })
