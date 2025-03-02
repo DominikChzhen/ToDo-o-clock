@@ -1,0 +1,274 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #ffffff;
+    color: black;
+    padding: 20px;
+    font-weight: normal; 
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: F9F9F9;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+header h1, header .date {
+    display: block; /* Elemente untereinander anordnen */
+    text-align: left; 
+    font-weight: normal; 
+}
+
+.time-tracker {
+    display: flex;
+    align-items: center;
+}
+
+.time-tracker span {
+    margin-right: 10px;
+    font-weight: normal; 
+}
+
+.time-tracker button {
+    background: #FABB18;
+    color: rgb(0, 0, 0);
+    border: none;
+    padding: 10px 20px; 
+    border-radius: 10px; 
+    cursor: pointer;
+    font-size: 16px; 
+    font-weight: normal; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Schatten für einen 3D-Effekt */
+    transition: background 0.3s ease; /* Übergangseffekt für Hintergrundfarbe */
+}
+
+.time-tracker button:hover {
+    background: #e0a617; /* Dunklere Hintergrundfarbe beim Hover */
+}
+
+main {
+    background: #F9F9F9; 
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    gap: 10px; /* Abstand zwischen den Statistikkästen */
+}
+
+.stat-box {
+    background: white;
+    padding: 10px; /* Weniger Padding für minimalistischeres Design */
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    flex: 1; /* Gleiche Breite für alle Statistikkästen */
+    font-weight: normal; 
+}
+
+.stat-box h3 {
+    font-size: 14px; /* Kleinere Schriftgröße für die Überschriften */
+    margin-bottom: 5px; /* Weniger Abstand unter den Überschriften */
+    font-weight: normal; 
+}
+
+.stat-box span {
+    font-size: 24px; /* Größere Schriftgröße für die Zahlen */
+    display: block; /* Zahlen unter den Überschriften */
+    font-weight: normal; 
+}
+
+.tasks {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    font-weight: normal;
+}
+
+.tasks-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.tasks h2 {
+    margin: 0;
+    font-weight: normal;
+}
+
+#add-task {
+    background: #FABB18;
+    color: rgb(0, 0, 0);
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 12px; 
+    font-weight: normal;
+}
+
+.task-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    background: #ffffff;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 10px;
+    font-weight: normal;
+    border: 1px solid #F1F1F1;
+}
+
+.task-item.completed {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+.task-item span:last-child {
+    background: #FFF8E8;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.task-item input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.task-categories {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.task-category {
+    background: white;
+    padding: 15px;
+}
+
+.task-category h3 {
+    margin-top: 0;
+    font-weight: normal;
+    color: #9A9A9A; 
+    font-size: 16px; 
+}
+
+.task-list {
+    margin-top: 10px;
+}
+
+.popup {
+    display: none; /* Pop-up-Fenster standardmäßig ausblenden */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.popup-content {
+    background-color: #ffffff;
+    margin: 15% auto;
+    padding: 20px;
+    border: none; /* Entferne den Rand */
+    width: 80%;
+    max-width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Schatten für einen 3D-Effekt */
+}
+
+.popup-content h3 {
+    margin-top: 0;
+    font-size: 24px;
+    color: #333;
+}
+
+.popup-content label {
+    display: block;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #666;
+}
+
+.popup-content input[type="text"],
+.popup-content input[type="checkbox"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.popup-content input[type="checkbox"] {
+    width: auto;
+    margin-right: 10px;
+}
+
+.popup-content button {
+    background-color: #FABB18;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 20px;
+    width: 100%;
+    transition: background 0.3s ease;
+}
+
+.popup-content button:hover {
+    background-color: #e0a617;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.archive {
+    display: none; /* Archiv standardmäßig ausblenden */
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.archive h2 {
+    margin-top: 0;
+    font-weight: normal;
+    color: #9A9A9A;
+    font-size: 16px;
+}
+
+.archive-list {
+    display: none;
+    margin-top: 10px;
+}
+

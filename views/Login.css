@@ -1,0 +1,117 @@
+/* Global Styles */
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #e0e5ec;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    transition: background-color 0.3s ease;
+}
+
+/* Überschrift */
+h1 {
+    color: #333;
+    font-size: 2.5rem; 
+    margin-bottom: 20px;
+    letter-spacing: 1.5px;
+    text-align: center;
+    text-shadow: 1px 1px 2px rgba(100, 100, 100, 0.1);
+}
+
+/* Form Container */
+form {
+    background-color: #ffffff;
+    padding: 30px; 
+    margin-bottom: 20px;
+    border-radius: 10px; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 300px; 
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+form:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+label {
+    display: block;
+    font-size: 1rem;
+    color: #555; 
+    margin-bottom: 8px; 
+    font-weight: 600;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="password2"] {
+    width: 100%;
+    padding: 12px 1px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem; 
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="password2"]:focus {
+    border-color: #FFD700;
+    outline: none;
+    box-shadow: 0 0 8px rgba(249, 187, 25, 0.25);
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 6px;
+    border: none;
+    background-color: #f9bb19;
+    color: #ffffff;
+    font-size: 1.1rem; 
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+button:hover {
+    background-color: #FFD700;
+    transform: translateY(-2px); 
+}
+
+p {
+    margin-top: 10px;
+    color: #555;
+    text-align: center;
+    font-size: 1rem;
+}
+
+h2 {
+    display: block;
+    color: #555; 
+    margin-top: 0px;
+    margin-bottom: 20px; 
+}
+
+.wrongAuth {
+    background-color: #ffd6d6;
+    padding: 30px; 
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin-bottom: 20px;
+    border-radius: 10px; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 300px; 
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.wrongAuthText {
+    color: rgb(212, 70, 70);
+    text-align: center;
+    font-size: 1rem;
+}

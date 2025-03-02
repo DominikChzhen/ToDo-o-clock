@@ -22,7 +22,20 @@
         </form>
     </div>
     <p>ToDOs:</p>
-    <p><%=user.toDo%></p>
+    <%for (const todo of user.toDo) {
+        if(todo.done === false){ %>
+    <p><%=todo%></p>
+    <a href="/completeToDo/<%=todo._id%>">completet</a>
+    <a href="/deleteToDo/<%=todo._id%>">Delete</a>
+    <% } } %>
+    <hr>
+    <p>finished ToDOs:</p>
+    <%for (const todo of user.toDo) {
+        if(todo.done === true){ %>
+    <p><%=todo%></p>
+    <a href="/completeToDo/<%=todo._id%>">uncomplete</a>
+    <a href="/deleteToDo/<%=todo._id%>">Delete</a>
+    <% } } %>
     <hr>
     <form action="/logout" method="POST">
         <button>logout</button>
