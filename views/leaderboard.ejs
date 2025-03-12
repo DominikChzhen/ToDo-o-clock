@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo o’clock</title>
+    <link rel="stylesheet" href="/calendo.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+</head>
+<body>
+    <header style="justify-content: center">
+        <div class="container">
+            <div class="tasks" style="justify-content: center; text-align: center;">
+                <span class="material-icons" style="font-size: 50px;">leaderboard</span>
+                <h1 style="text-align: center; margin: 0px">Leaderboard</h1>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="main">
+            <div class="tasks">
+                    <div class="task-list">
+                        <%let topUsers = 50;
+                        for(const [index, user] of users.entries()) { if(user.totalTimeWorked > 60 && index < topUsers) { %>
+                                <div class="task-item">
+                                    <span class="todo-name">
+                                        #<%= index+1 %> <%= user.username %>
+                                    </span>
+                                    <span class="task-duration">
+                                        <%= Math.floor(user.totalTimeWorked/60) %> 
+                                    </span>
+                                </div>
+                        <%}}%>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <p style="text-align: center; font-size: 14px;">These are the top 50. Your score is your total time worked in minutes.<br>Your total time worked is tracked with the pomodoro timer.<br> If you worked less than 1 minute, you will not be ranked.</p>
+    <div class="time-tracker" style="justify-content: center;">
+        <form action="/todos" method="GET">
+            <button>Back</button>
+        </form>
+    </div>
+</body>
+</html>

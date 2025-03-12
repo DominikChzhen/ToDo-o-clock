@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo o’clock</title>
+    <link rel="stylesheet" href="Login.css"> 
+</head>
+<body>
+    <h1>ToDo o’clock</h1>
+
+    <% if(isWrongPassword) {%>
+    <div class="wrongAuth">
+        <p class="wrongAuthText">&#9940 Username or Password is incorrect!</p>
+    </div>
+    <% } %>
+
+    <form action="/login" method="POST">
+        <h2>Login</h2>
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username">
+        </div>
+        <div>
+            <label for="password">Password:</label> <input type="password" name="password" id="password">
+        </div>
+        <button>Login</button>
+    </form>
+    
+    <form action="/signup" method="GET">
+        <p>You don't have an account yet?</p>
+        <button>Sign Up</button></a>
+    </form>
+</body>
+</html>

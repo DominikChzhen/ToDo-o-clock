@@ -1,0 +1,698 @@
+/* Dominiks css */
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #ffffff;
+    color: black;
+    padding: 20px;
+    font-weight: normal;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: F9F9F9;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+header h1,
+header .date {
+    display: block;
+    /* Elemente untereinander anordnen */
+    text-align: left;
+    font-weight: normal;
+}
+
+.time-tracker {
+    display: flex;
+    align-items: center;
+}
+
+.time-tracker span {
+    margin-right: 10px;
+    font-weight: normal;
+}
+
+.time-tracker button {
+    background: #FABB18;
+    color: rgb(0, 0, 0);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: normal;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Schatten für einen 3D-Effekt */
+    transition: background 0.3s ease;
+    /* Übergangseffekt für Hintergrundfarbe */
+}
+
+.time-tracker button:hover {
+    background: #e0a617;
+    /* Dunklere Hintergrundfarbe beim Hover */
+}
+
+main {
+    background: #F9F9F9;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    gap: 10px;
+    /* Abstand zwischen den Statistikkästen */
+}
+
+.stat-box {
+    background: white;
+    padding: 10px;
+    /* Weniger Padding für minimalistischeres Design */
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    /* Gleiche Breite für alle Statistikkästen */
+    font-weight: normal;
+}
+
+.stat-box h3 {
+    font-size: 14px;
+    /* Kleinere Schriftgröße für die Überschriften */
+    margin-bottom: 5px;
+    /* Weniger Abstand unter den Überschriften */
+    font-weight: normal;
+}
+
+.stat-box span {
+    font-size: 24px;
+    /* Größere Schriftgröße für die Zahlen */
+    display: block;
+    /* Zahlen unter den Überschriften */
+    font-weight: normal;
+}
+
+.tasks {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    font-weight: normal;
+}
+
+.tasks-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.tasks h2 {
+    margin: 0;
+    font-weight: normal;
+}
+
+#add-task {
+    background: #FABB18;
+    color: rgb(0, 0, 0);
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.task-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #ffffff;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 10px;
+    font-weight: normal;
+    border: 1px solid #F1F1F1;
+    /*gap: 10px;*/
+}
+
+.task-item.completed {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+.task-item span:last-child {
+    background: #FFF8E8;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.task-item input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.task-categories {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.task-category {
+    background: white;
+    padding: 15px;
+}
+
+.task-category h3 {
+    margin-top: 0;
+    font-weight: normal;
+    color: #9A9A9A;
+    font-size: 16px;
+}
+
+.task-list {
+    margin-top: 10px;
+}
+
+.popup {
+    display: none;
+    /* Pop-up-Fenster standardmäßig ausblenden */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.popup-content {
+    background-color: #ffffff;
+    margin: 15% auto;
+    padding: 20px;
+    border: none;
+    /* Entferne den Rand */
+    width: 80%;
+    max-width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Schatten für einen 3D-Effekt */
+}
+
+.popup-content h3 {
+    margin-top: 0;
+    font-size: 24px;
+    color: #333;
+}
+
+.popup-content label {
+    display: block;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #666;
+}
+
+.popup-content input[type="text"],
+.popup-content input[type="number"],
+.popup-content input[type="checkbox"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.popup-content input[type="checkbox"] {
+    width: auto;
+    margin-right: 10px;
+}
+
+.popup-content button {
+    background-color: #FABB18;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 20px;
+    width: 100%;
+    transition: background 0.3s ease;
+}
+
+.popup-content button:hover {
+    background-color: #e0a617;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.archive {
+    /* display: none; */
+    /* Archiv standardmäßig ausblenden */
+    display: block;
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+
+.archive h2 {
+    margin: 0;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-weight: normal;
+    font-size: 16px;
+    color: #9A9A9A;
+    /* font-size: 16px; */
+}
+
+.archive-list {
+    padding: 15px;
+    display: none; 
+}
+
+/* Felix' css */
+
+::selection {
+    background-color: antiquewhite;
+    color: #000;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    padding: 10px 20px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #ddd;
+    position: sticky;
+    top: 0;
+    /* z-index: 1000;  Kein expliziter z-index nötig, außer es gibt Probleme */
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links li {
+    margin: 0 15px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    font-size: 1rem;
+    color: #333;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: #007bff;
+}
+
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 25px;
+    height: 20px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.menu-toggle span {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: #333;
+    border-radius: 2px;
+    transition: all 0.3s;
+}
+/*768*/
+@media (max-width: 870px) {
+    .menu-toggle {
+        display: flex;
+    }
+
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: #ffffff;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 10px 0;
+        /* z-index: 1000;  Kein expliziter z-index nötig, außer es gibt Probleme */
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .nav-links li {
+        text-align: left;
+        padding: 10px 20px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .nav-links li:last-child {
+        border-bottom: none;
+    }
+
+    .nav-links a {
+        font-size: 1rem;
+        color: #333;
+        font-weight: 500;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+        color: #007bff;
+    }
+
+    .menu-toggle.active span:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .menu-toggle.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .menu-toggle.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(5px, -5px);
+    }
+}
+
+.content-box {
+    width: calc(100% - 40px);
+    margin: 80px auto 20px;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    text-align: center;
+}
+
+@media (max-width: 870px) {
+    .content-box {
+        padding: 15px;
+        margin: 120px 10px 10px;
+    }
+}
+
+.date-container {
+    text-align: left;
+    margin-bottom: 20px;
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+}
+
+.date-container h2 {
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.date-container p {
+    font-size: 1rem;
+    color: #555;
+    margin: 5px 0 0;
+}
+
+.nav-links a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    font-size: 1rem;
+    color: #333;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: #FFD700;
+
+}
+
+.material-icons {
+    font-size: 1.5rem;
+    color: #FFD700;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover .material-icons {
+    color: #FFA500;
+}
+
+.material-symbols-outlined {
+    font-size: 1.5rem;
+    color: #FFD700;
+    vertical-align: middle;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover .material-symbols-outlined {
+    color: #FFA500;
+}
+
+
+/* Pomodoro Styling */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 300px;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+h3 {
+    margin-top: 10px;
+}
+
+p {
+    font-size: 1.8rem;
+    margin: 5px 0;
+}
+
+button {
+    margin: 5px;
+    padding: 10px 20px;
+    border: 1px solid #333;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    background-color: transparent;
+    color: #333;
+}
+
+button:hover {
+    background-color: #f0f0f0;
+}
+
+
+/* Christophers css */
+
+.task-duration {
+    background: #FFF8E8;
+    padding: 3px 10px;
+    border-radius: 5px;
+    margin-right: 3px;
+    margin-left: auto;
+    /* Schiebt die Dauer ganz nach rechts */
+
+}
+
+.delete-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: red;
+    /* Standardfarbe für das Icon */
+    padding: 3px;
+    margin: 3px;
+    margin-left: 0px;
+    
+    /* Weniger Abstand, damit es kompakter ist */
+}
+
+.trash-icon {
+    font-size: 20px;
+    /* Verkleinert das Icon */
+    vertical-align: middle;
+    /* Positioniert es besser mit dem Text */
+}
+
+.delete-btn:hover .trash-icon {
+    color: #FFA500;
+    /* Dunkler beim Hover */
+    transform: scale(1.05);
+    /* Leichte Vergrößerung für besseren Effekt */
+}
+
+.task-content {
+    flex-grow: 1;
+    /* Lässt den Inhalt den verfügbaren Platz ausfüllen */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.archive {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    font-weight: normal;
+}
+
+.archive h2 {
+    /* font-size: 16px; */
+    color: #9A9A9A;
+}
+
+.completed {
+    opacity: 0.6;
+}
+
+@media (max-width: 870px) {
+      body {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden; 
+        width: 100%;
+      }
+      
+      /*.container {
+        max-width: 1200px; 
+        margin: 0 auto; 
+        padding: 15px; 
+        box-sizing: border-box; 
+        position: relative; 
+      }*/
+
+    header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .date-con {
+        
+        text-align: center;
+    }
+
+    header h1 {
+        text-align: center;
+    }
+    .time-tracker {
+        
+        text-align: center;
+    }
+    .stats {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .task-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: nowrap;
+        overflow: hidden;
+        padding: 8px;
+        gap: 5px;
+    }
+
+    .todo-name {
+        overflow:hidden;
+        text-overflow: ellipsis;
+        white-space: normal;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+    .task-content {
+        flex-grow: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .task-duration {
+        flex-shrink: 0;
+        padding: 4px 8px;
+    }
+
+    .delete-btn {
+        flex-shrink: 0;
+    }
+
+    .nav-links {
+        width: 100%;
+    }
+}

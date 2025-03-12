@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo o’clock</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <!-- Styles -->
+    <link rel="stylesheet" href="/calendo.css">
+</head>
+
+<body>
+    <nav>
+        <div class="logo">ToDo o’clock</div>
+        <button class="menu-toggle" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <ul class="nav-links">
+            <!-- <li><a href="Home.html"><span class="material-icons">home</span> Home</a></li> -->
+            <!-- <li><a href="Timer.html"><span class="material-icons">timer</span> Timer</a></li> -->
+            <li><a id="new-task" style="cursor: pointer"><span class="material-icons">add_circle</span> New ToDo</a>
+            </li>
+            <li onclick="openTimerPopup()"><a href="#" id="pomodoro-link"><span
+                        class="material-symbols-outlined">nutrition</span> Pomodoro Timer</a>
+            </li>
+            <li><a href="/leaderboard"><span class="material-icons">leaderboard</span> Leaderboard</a></li>
+            <li><a href="#logout" id="logoutLink"><span class="material-icons">account_circle</span> Logout</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <header>
+            <div class="date-con">
+                <h1>Today</h1>
+                <div class="date"></div>
+            </div>
+            <div class="time-tracker">
+                <button id="start-tracker" onclick="openTimerPopup()">Start Pomodoro Timer ▶</button>
+            </div>
+        </header>
+
+        <main class="main">
+            <div class="stats">
+                <div class="stat-box">
+                    <h3>Active ToDos</h3>
+                    <span><%= activeToDos %></span>
+                </div>
+                <div class="stat-box">
+                    <h3>Total Time Worked</h3>
+                    <%function convertSecondsToDHMS(seconds) {
+                        const days = Math.floor(seconds / (24 * 3600)); // Calculate full days
+                        seconds %= (24 * 3600); // Remaining seconds after calculating days
+                        
+                        const hours = Math.floor(seconds / 3600); // Calculate hours
+                        seconds %= 3600; // Remaining seconds after calculating hours
+                        
+                        const minutes = Math.floor(seconds / 60); // Calculate minutes
+                        const remainingSeconds = seconds % 60; // Remaining seconds
+                    
+                        // Format each value to always show two digits for consistency
+                        let formattedDays = String(days).padStart(2, '0');
+                        let formattedHours = String(hours).padStart(2, '0');
+                        let formattedMinutes = String(minutes).padStart(2, '0');
+                        let formattedSeconds = String(remainingSeconds).padStart(2, '0');
+
+                        formattedDays = parseInt(formattedDays) != 0 ? formattedDays : "DD";
+                        formattedHours = parseInt(formattedHours) != 0 ? formattedHours : "HH";
+                        formattedMinutes = parseInt(formattedMinutes) != 0 ? formattedMinutes : "MM";
+                        formattedSeconds = parseInt(formattedSeconds) != 0 ? formattedSeconds : "SS";
+                    
+                        return `${formattedDays}:${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+                    }%>
+                    <span><%= convertSecondsToDHMS(ttt) %></span>
+                </div>
+                <div class="stat-box">
+                    <h3>Completed ToDos</h3>
+                    <span><%= com %></span>
+                </div>
+            </div>
+
+            <div class="tasks">
+                <div class="tasks-header">
+                    <h2>To Do</h2>
+                    <button id="add-task">Add ToDo</button>
+                </div>
+                <div class="task-categories">
+                    <div class="task-category" id="important-urgent">
+                        <h3>Important / Urgent</h3>
+                        <div class="task-list">
+                            <%for (let todo of todos) { if(todo.isImportant && todo.isUrgent && !todo.isCompleted) {%>
+                                <div class="task-item">
+
+                                    <form action="/todos/<%= todo._id %>/complete?_method=PUT" method="POST">
+                                        <input type="checkbox" onchange="this.form.submit()" style="cursor: pointer"
+                                            <%=todo.isCompleted ? 'checked' : '' %>>
+                                    </form>
+
+                                    <span class="todo-name"
+                                        onclick="openEditPopup('<%= todo._id %>', '<%= todo.name %>', '<%= todo.duration %>', '<%= todo.isImportant %>', '<%= todo.isUrgent %>')"
+                                        style="cursor: pointer">
+                                        <%=todo.name %>
+                                    </span>
+
+
+                                    <span class="task-duration">
+                                        <%= todo.duration %>
+                                    </span>
+
+                                    <span>
+                                        <button style="margin-left: 0px; margin-right: 0px;" onclick="openEditPopup('<%= todo._id %>', '<%= todo.name %>', '<%= todo.duration %>', '<%= todo.isImportant %>', '<%= todo.isUrgent %>')" class="delete-btn">
+                                            <span class="material-icons trash-icon">edit</span>
+                                        </button>
+                                    </span>
+
+                                    <form action="/todos/<%= todo._id %>?_method=DELETE" method="POST"
+                                        style="display:inline;">
+                                        <button type="submit" class="delete-btn">
+                                            <span class="material-icons trash-icon">delete</span>
+                                        </button>
+                                    </form>
+
+                                </div>
+                                <% }} %>
+
+                        </div>
+                    </div>
+                    <div class="task-category" id="important-not-urgent">
+                        <h3>Important / Not Urgent</h3>
+                        <div class="task-list">
+                            <%for (let todo of todos) { if(todo.isImportant && !todo.isUrgent && !todo.isCompleted) {%>
+                                <div class="task-item">
+
+                                    <form action="/todos/<%= todo._id %>/complete?_method=PUT" method="POST">
+                                        <input type="checkbox" onchange="this.form.submit()" style="cursor: pointer"
+                                            <%=todo.isCompleted ? 'checked' : '' %>>
+                                    </form>
+
+                                    <span class="todo-name"
+                                        onclick="openEditPopup('<%= todo._id %>', '<%= todo.name %>', '<%= todo.duration %>', '<%= todo.isImportant %>', '<%= todo.isUrgent %>')"
+                                        style="cursor: pointer">
+                                        <%=todo.name %>
+                                    </span>
+
+                                    <span class="task-duration">
+                                        <%= todo.duration %>
+                                    </span>
+
+                                    <span>
+                                        <button style="margin-left: 0px; margin-right: 0px;" onclick="openEditPopup('<%= todo._id %>', '<%= todo.name %>', '<%= todo.duration %>', '<%= todo.isImportant %>', '<%= todo.isUrgent %>')" class="delete-btn">
+                                            <span class="material-icons trash-icon">edit</span>
+                                        </button>
+                                    </span>                                    
+
+                                    <form action="/todos/<%= todo._id %>?_method=DELETE" method="POST"
+                                        style="display:inline;">
+                                        <button type="submit" class="delete-btn">
+                                            <span class="material-icons trash-icon">delete</span>
+                                        </button>
+                                    </form>
+
+                                </div>
+                                <% }} %>
+
+                        </div>
+                    </div>
+                    <div class="task-category" id="not-important-urgent">
+                        <h3>Not Important / Urgent</h3>
+                        <div class="task-list">
+                            <%for (let todo of todos) { if(!todo.isImportant && todo.isUrgent && !todo.isCompleted) {%>
+                                <div class="task-item">
+
+                                    <form action="/todos/<%= todo._id %>/complete?_method=PUT" method="POST">
+                                        <input type="checkbox" onchange="this.form.submit()" style="cursor: pointer"
+                                            <%=todo.isCompleted ? 'checked' : '' %>>
+                                    </form>
+
+                                    <span class="todo-name"
+                                        onclick="openEditPopup('<%= todo._id %>', '<%= todo.name %>', '<%= todo.duration %>', '<%= todo.isImportant %>', '<%= todo.isUrgent %>')"
+                                        style="cursor: pointer">
+                                        <%=todo.name %>
+                                    </span>
+
+                                    <span class="task-duration">
+                                        <%= todo.duration %>
+                                    </span>
+
+                                    <span>
+                                        <button style="margin-left: 0px; margin-right: 0px;" onclick="openEditPopup('<%= todo._id %>', '<%= todo.name %>', '<%= todo.duration %>', '<%= todo.isImportant %>', '<%= todo.isUrgent %>')" class="delete-btn">
+                                            <span class="material-icons trash-icon">edit</span>
+                                        </button>
+                                    </span>
+
+                                    <form action="/todos/<%= todo._id %>?_method=DELETE" method="POST"
+                                        style="display:inline;">
+                                        <button type="submit" class="delete-btn">
+                                            <span class="material-icons trash-icon">delete</span>
+                                        </button>
+                                    </form>
+
+                                </div>
+                                <% }} %>
+
+                        </div>
+                    </div>
+                    <div class="task-category" id="not-important-not-urgent">
+                        <h3>Not Important / Not Urgent</h3>
+                        <div class="task-list">
+                            <%for (let todo of todos) { if(!todo.isImportant && !todo.isUrgent && !todo.isCompleted) {%>
+                                <div class="task-item">
+
+                                    <form action="/todos/<%= todo._id %>/complete?_method=PUT" method="POST">
+                                        <input type="checkbox" onchange="this.form.submit()" style="cursor: pointer"
+                                            <%=todo.isCompleted ? 'checked' : '' %>>
+                                    </form>
+
+                                    <span class="todo-name"
+                                        onclick="openEditPopup('<%= todo._id %>', '<%= todo.name %>', '<%= todo.duration %>', '<%= todo.isImportant %>', '<%= todo.isUrgent %>')"
+                                        style="cursor: pointer">
+                                        <%=todo.name %>
+                                    </span>
+
+                                    <span class="task-duration">
+                                        <%= todo.duration %>
+                                    </span>
+
+                                    <span>
+                                        <button style="margin-left: 0px; margin-right: 0px;" onclick="openEditPopup('<%= todo._id %>', '<%= todo.name %>', '<%= todo.duration %>', '<%= todo.isImportant %>', '<%= todo.isUrgent %>')" class="delete-btn">
+                                            <span class="material-icons trash-icon">edit</span>
+                                        </button>
+                                    </span>
+
+                                    <form action="/todos/<%= todo._id %>?_method=DELETE" method="POST"
+                                        style="display:inline;">
+                                        <button type="submit" class="delete-btn">
+                                            <span class="material-icons trash-icon">delete</span>
+                                        </button>
+                                    </form>
+
+                                </div>
+                                <% }} %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <% let hasCompletedTasks=false; %>
+                <% for (let todo of todos) { if (todo.isCompleted) { hasCompletedTasks=true; break; } } %>
+                    <% if (hasCompletedTasks) { %>
+                        <div class="archive">
+                            <!--<div class="task-categories">-->
+                                <!--<div class="task-category" id="important-urgent">-->
+                                    <h2 style="cursor: pointer">Archive (Completet ToDos)</h2>
+                                    <div class="archive-list">
+                                        <% for (let todo of todos) { if (todo.isCompleted) { %>
+                                            <div class="task-item completed">
+
+                                                <form action="/todos/<%= todo._id %>/complete?_method=PUT"
+                                                    method="POST">
+                                                    <input type="checkbox" onchange="this.form.submit()"
+                                                        style="cursor: pointer" <%=todo.isCompleted ? 'checked' : '' %>>
+                                                </form>
+
+                                                <span class="todo-name"
+                                                    onclick="openEditPopup('<%= todo._id %>', '<%= todo.name %>', '<%= todo.duration %>', '<%= todo.isImportant %>', '<%= todo.isUrgent %>')"
+                                                    style="cursor: pointer">
+                                                    <%=todo.name %>
+                                                </span>
+
+                                                <span class="task-duration">
+                                                    <%= todo.duration %>
+                                                </span>
+
+                                                <form action="/todos/<%= todo._id %>?_method=DELETE" method="POST"
+                                                    style="display:inline;">
+                                                    <button type="submit" class="delete-btn">
+                                                        <span class="material-icons trash-icon">delete</span>
+                                                    </button>
+                                                </form>
+
+                                            </div>
+                                            <% }} %>
+                                    </div>
+                                <!--</div>-->
+                            <!--</div>-->
+                        </div>
+                        <% } %>
+        </main>
+
+    </div>
+
+    <!-- Pop-up-Fenster zur Erstellung neuer Aufgaben -->
+    <div id="task-popup" class="popup">
+        <div class="popup-content">
+            <span class="close">&times;</span>
+            <h3>Add New Task</h3>
+            <form id="task-form" action="/todos" method="POST">
+                <label for="task-name">Name of ToDo:</label>
+                <input type="text" id="task-name" name="name" required>
+
+                <label for="task-duration">Estimated Time Required:</label>
+                <input type="number" id="task-duration" name="duration" min="0" required>
+
+                <label for="task-important">Important:</label>
+                <input type="checkbox" id="task-important" name="isImportant">
+
+                <label for="task-urgent">Urgent:</label>
+                <input type="checkbox" id="task-urgent" name="isUrgent">
+
+                <button type="submit">Add</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Pop-up-Fenster zur Bearbeitung von Aufgaben -->
+    <div id="edit-task-popup" class="popup">
+        <div class="popup-content">
+            <span class="close">&times;</span>
+            <h3>Edit ToDo</h3>
+            <form id="edit-task-form" method="POST">
+
+                <input type="hidden" id="edit-task-id"> <!-- Hier wird die ID in einem versteckten Feld eingefügt-->
+
+                <label for="edit-task-name">Name of ToDo:</label>
+                <input type="text" id="edit-task-name" name="name" required>
+
+                <label for="task-duration">Estimated Time Required:</label>
+                <input type="number" id="edit-task-duration" name="duration" min="0" required>
+
+                <label for="edit-task-important">Important:</label>
+                <input type="checkbox" id="edit-task-important" name="isImportant">
+
+                <label for="edit-task-urgent">Urgent:</label>
+                <input type="checkbox" id="edit-task-urgent" name="isUrgent">
+
+                <button type="submit">Save</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/calendo.js"></script>
+</body>
+
+</html>

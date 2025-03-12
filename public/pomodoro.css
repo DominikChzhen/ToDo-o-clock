@@ -1,0 +1,84 @@
+/* Farben beziehen */
+:root {
+    --Gelb: #f9bb19ff;
+    --seasalt: #f8f9faff;
+    --hellgrau: #dee2e6ff;
+    --hellrosa: #c799a6ff;
+    --dunkelgrau: #212529ff;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 100;
+    font-style: normal;
+    margin: 0;
+    background-color: var(--seasalt);
+    display: grid;
+    place-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+h1 {
+    color: var(--dunkelgrau);
+    font-size: 70px;
+    text-align: center;
+    background: white;
+    width: 100%;
+    height: 40px;
+    padding: 300;
+    margin: 0;
+}
+
+.timer {
+    text-align: center;
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    width: 1300px;
+    box-shadow: 0 2px 10px #dee2e6ff;
+    border: 1px solid var(--hellgrau);
+}
+
+#time-display {
+    font-size: 200px;
+    margin-bottom: 5px;
+    color: #212529ff;
+    /* Farbe der Zahl */
+    font-weight: 900;
+    opacity: 0.8;
+    /* Leicht durchsichtig */
+    text-align: center;
+}
+
+button {
+    padding: 8px 12px;
+    margin: 2px;
+    font-size: 14px;
+    color: var(--dunkelgrau);
+    background-color: var(--Gelb);
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+    background-color: #FFD261;
+    color: black;
+    font-weight: bold;
+    transform: scale(1.05);
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+.time-controls,
+.break-controls {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-bottom: 5px;
+}
